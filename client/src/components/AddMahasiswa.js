@@ -1,4 +1,5 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import{
 	Form,FormGroup,Label,Input,Button
@@ -6,23 +7,41 @@ import{
 
 
 const AddMahasiswa = ()=>{
+	const [name,setName]= useState()
+	const [nim,setNim]= useState()
+	const [prodi,setProdi]= useState()
+	const [angkatan,setAngkatan]= useState()
+	const [status,setStatus]= useState()
+
 	return (
 		<Form>
 			<FormGroup>
 			<Label>Name</Label>
-			<Input type="text" placeholder="Enter Name"> </Input>
+			<Input onChange={(e)=>setName(e.target.value)} type="text" placeholder="Enter Name"> </Input>
 			<Label>NIM</Label>
-			<Input type="text" placeholder="Enter Name"> </Input>
+			<Input onChange={(e)=>setNim(e.target.value)} type="text" placeholder="Enter Name"> </Input>
 			<Label>Prodi</Label>
-			<Input type="text" placeholder="Enter Name"> </Input>
+			<Input onChange={(e)=>setProdi(e.target.value)} type="text" placeholder="Enter Name"> </Input>
 			<Label>Angkatan</Label>
-			<Input type="text" placeholder="Enter Name"> </Input>
+			<Input onChange={(e)=>setAngkatan(e.target.value)} type="text" placeholder="Enter Name"> </Input>
 			<Label>Status</Label>
-			<Input type="text" placeholder="Enter Name"> </Input>
+			<Input onChange={(e)=>setStatus(e.target.value)} type="text" placeholder="Enter Name"> </Input>
 			</FormGroup>
 		
 		<Link to="/" className="btn btn-danger ml-2" >Cancel</Link>
-		<Button type="submit">Submit</Button>
+		<Button onClick={()=>{
+			axios.post("http://localhost:8080/mahasiswa/",{
+				Nama:name,
+				NIM :nim,
+				Prodi:prodi,
+				Angkatan:angkatan,
+				Status:status,
+			})
+			.then((res) => {
+				console.log(res.data.message);
+			    })
+
+		}}  type="submit">Submit</Button>
 		</Form>
 	)
 }
